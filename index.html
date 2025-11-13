@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Приглашение</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@400;500;600&display=swap');
+
+    html, body {
+      margin: 0; padding: 0; height: 100%;
+      font-family: 'Quicksand', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      flex-direction: column;
+      text-align: center;
+      overflow: hidden;
+      background-color: #000; 
+      transition: background 1s ease;
+    }
+
+    #bgOverlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4); 
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 1s ease, background 1.5s ease;
+    }
+
+    #intro, #invitation, #answerBtn {
+      background: rgba(255, 255, 255, 0.88);
+      padding: 30px 40px;
+      border-radius: 24px;
+      box-shadow: 0 8px 18px rgba(100, 80, 120, 0.25);
+      max-width: 420px;
+      width: 90%;
+      z-index: 10;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 1s ease;
+      color: #4b3b47;
+    }
+
+    #intro {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3.6rem;
+      letter-spacing: 2px;
+      user-select: none;
+    }
+
+    button {
+      margin-top: 24px;
+      background-color: #d6a4ff;
+      border: none;
+      border-radius: 14px;
+      padding: 14px 30px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      user-select: none;
+      box-shadow: 0 4px 10px rgba(150, 100, 200, 0.3);
+    }
+    button:hover {
+      background-color: #b278e0;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(150, 100, 200, 0.4);
+    }
+
+    #invitation {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      margin-top: 20px;
+      display: block;
+      white-space: pre-line;
+      min-height: 200px;
+    }
+
+    #answerBtn {
+      margin-top: 40px;
+    }
+
+    @keyframes glow {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; }
+    }
+
+    .petal {
+      position: fixed;
+      top: -10px;
+      width: 20px;
+      height: 20px;
+      background-color: rgba(255, 182, 193, 0.8);
+      border-radius: 50% 50% 50% 50%;
+      animation: fall linear forwards;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="bgOverlay"></div>
+
+  <div id="intro">
+    Приглашение
+    <br />
+    <button id="openBtn">Открыть</button>
+  </div>
+
+  <div id="invitation"></div>
+
+  <div id="answerBtn">
+    <button id="replyBtn">Дать ответ</button>
+  </div>
+
+  <!-- Используем ссылки GitHub Pages -->
+  <audio id="bgMusic" src="https://tcfdx77fzh-ui.github.io/Public/music.mp3" loop></audio>
+
+<script>
+  const openBtn = document.getElementById('openBtn');
+  const intro = document.getElementById('intro');
+  const invitation = document.getElementById('invitation');
+  const answerBtn = document.getElementById('answerBtn');
+  const replyBtn = document.getElementById('replyBtn');
+  const bgMusic = document.getElementById('bgMusic');
+  const bgOverlay = document.getElementById('bgOverlay');
+
+  const invitationText = `Дорогие Денис и Арина!\n\nПриглашаем Вас на торжество,\nпосвящённое нашему бракосочетанию,\nкоторое состоится 23 ноября 2025 года в 19:00\nв Ресторане «Посейдон»\nпо адресу: Загорьевская ул., 13, Москва\n\nБудем счастливы видеть Вас на нашем празднике!\n\nЕвгений и Татьяна`;
+
+  // Загружаем фон перед показом
+  const bgImg = new Image();
+  bgImg.src = 'https://tcfdx77fzh-ui.github.io/Public/IMG_1042.JPG';
+  bgImg.onload = () => {
+    document.body.style.backgroundImage = `url('${bgImg.src}')`;
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center';
+    document.body.style.backgroundRepeat = 'no-repeat';
+    bgOverlay.style.opacity = '1';
+    intro.style.opacity = '1';
+    intro.style.transform = 'translateY(0)';
+  };
+
+  openBtn.addEventListener('click', () => {
+    intro.style.opacity = '0';
+    setTimeout(() => intro.style.display = 'none', 800);
+
+    bgOverlay.style.background = 'rgba(0,0,0,0.6)';
+
+    invitation.style.opacity = '1';
+    invitation.style.transform = 'translateY(0)';
+    typeText(invitation, invitationText, 40, () => {
+      invitation.style.animation = 'glow 2s infinite ease-in-out';
+      setTimeout(() => {
+        answerBtn.style.opacity = '1';
+      }, 1000);
+    });
+
+    startPetals();
+    bgMusic.play().catch(err => console.log('Автовоспроизведение заблокировано', err));
+  });
+
+  replyBtn.addEventListener('click', () => {
+    window.open('https://t.me/Jeka_7', '_blank');
+  });
+
+  function typeText(element, text, speed, callback) {
+    let i = 0;
+    element.innerHTML = '';
+    function type() {
+      if (i < text.length) {
+        let char = text[i];
+        element.innerHTML += char === '\n' ? '<br>' : char;
+        i++;
+        setTimeout(type, speed);
+      } else if (callback) {
+        callback();
+      }
+    }
+    type();
+  }
+
+  function startPetals() {
+    setInterval(() => {
+      const petal = document.createElement('div');
+      petal.classList.add('petal');
+      document.body.appendChild(petal);
+
+      const size = Math.random() * 12 + 8;
+      petal.style.width = `${size}px`;
+      petal.style.height = `${size * 0.8}px`;
+      petal.style.left = Math.random() * window.innerWidth + 'px';
+      petal.style.backgroundColor = `rgba(255, ${150 + Math.random()*50}, ${180 + Math.random()*50}, 0.9)`;
+      petal.style.animationDuration = `${5 + Math.random() * 5}s`;
+      petal.style.animationDelay = `${Math.random() * 2}s`;
+      petal.style.borderRadius = '50% 60% 40% 70%';
+
+      setTimeout(() => petal.remove(), 10000);
+    }, 300);
+  }
+</script>
+
+</body>
+</html>
