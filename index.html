@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Приглашение</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Raleway:wght@300;400;500&display=swap');
+
+    html, body {
+      margin: 0; padding: 0; height: 100%;
+      font-family: 'Raleway', sans-serif;
+      background: url('https://raw.githubusercontent.com/tcfdx77fzh-ui/Public/refs/heads/main/IMG_1042.jpeg.JPG') center/cover no-repeat fixed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #5a4a58;
+      background-color: #fff8fb;
+      flex-direction: column;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    #intro, #invitation, #answerBtn {
+      background: rgba(255, 255, 255, 0.85);
+      padding: 30px 40px;
+      border-radius: 25px;
+      box-shadow: 0 6px 15px rgba(120, 90, 140, 0.25);
+      max-width: 420px;
+      width: 90%;
+      animation: fadeIn 1.5s ease forwards;
+      z-index: 10;
+    }
+
+    #intro {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3.2rem;
+      color: #7b5fa0;
+      letter-spacing: 1.5px;
+      user-select: none;
+    }
+
+    button {
+      margin-top: 24px;
+      background-color: #d4a9ff;
+      border: none;
+      border-radius: 14px;
+      padding: 12px 28px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      user-select: none;
+      box-shadow: 0 4px 10px rgba(150, 100, 200, 0.3);
+    }
+    button:hover {
+      background-color: #b68be5;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(150, 100, 200, 0.4);
+    }
+
+    #invitation {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-top: 20px;
+      display: none;
+      white-space: pre-line;
+      color: #5b4b63;
+      opacity: 0;
+      font-weight: 400;
+    }
+
+    #answerBtn {
+      margin-top: 35px;
+      display: none;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInText {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Лепестки */
+    .petal {
+      position: fixed;
+      top: -10px;
+      width: 20px;
+      height: 20px;
+      background-color: rgba(255, 182, 193, 0.8);
+      border-radius: 50% 50% 50% 50%;
+      animation: fall linear forwards;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="intro">
+    Приглашение
+    <br />
+    <button id="openBtn">Открыть</button>
+  </div>
+
+  <div id="invitation">
+    Дорогие Денис и Арина!<br><br>
+    Приглашаем Вас на торжество,<br>
+    посвящённое нашему бракосочетанию,<br>
+    которое состоится<br>
+    <strong>23 ноября 2025 года в 19:00</strong><br><br>
+    в Ресторане «Посейдон»<br>
+    по адресу:<br>
+    <em>Загорьевская ул., 13, Москва</em><br><br>
+    Будем счастливы видеть Вас<br>
+    на нашем празднике!<br><br>
+    С любовью,<br>
+    <strong>Евгений и Татьяна 💕</strong>
+  </div>
+
+  <div id="answerBtn">
+    <button id="replyBtn">💌 Дать ответ</button>
+  </div>
+
+  <audio id="bgMusic" src="https://raw.githubusercontent.com/tcfdx77fzh-ui/Public/refs/heads/main/music.mp3.mp3" loop></audio>
+
+<script>
+  const openBtn = document.getElementById('openBtn');
+  const intro = document.getElementById('intro');
+  const invitation = document.getElementById('invitation');
+  const answerBtn = document.getElementById('answerBtn');
+  const replyBtn = document.getElementById('replyBtn');
+  const bgMusic = document.getElementById('bgMusic');
+
+  openBtn.addEventListener('click', () => {
+    intro.style.display = 'none';
+    invitation.style.display = 'block';
+    invitation.style.animation = 'fadeInText 2s ease forwards';
+    
+    setTimeout(() => {
+      answerBtn.style.display = 'block';
+      answerBtn.style.animation = 'fadeInText 1.5s ease forwards';
+    }, 1000); // кнопка появляется через 1 секунду
+
+    bgMusic.play().catch(() => {});
+    startPetals();
+  });
+
+  replyBtn.addEventListener('click', () => {
+    window.open('https://t.me/Jeka_7', '_blank');
+  });
+
+  // Лепестки
+  function startPetals() {
+    setInterval(() => {
+      const petal = document.createElement('div');
+      petal.classList.add('petal');
+      document.body.appendChild(petal);
+
+      const size = Math.random() * 12 + 8;
+      petal.style.width = `${size}px`;
+      petal.style.height = `${size * 0.8}px`;
+      petal.style.left = Math.random() * window.innerWidth + 'px';
+      petal.style.backgroundColor = `rgba(255, ${150 + Math.random()*50}, ${180 + Math.random()*50}, 0.9)`;
+      petal.style.animationDuration = `${6 + Math.random() * 5}s`;
+      petal.style.animationDelay = `${Math.random() * 2}s`;
+      petal.style.borderRadius = '50% 60% 40% 70%';
+
+      setTimeout(() => petal.remove(), 12000);
+    }, 350);
+  }
+</script>
+
+</body>
+</html>
